@@ -16,6 +16,8 @@
  */
 --%>
 
+<%@page import="com.liferay.portal.kernel.util.Constants"%>
+<%@page import="com.rivetlogic.todo.web.config.TodoPortletInstanceConfiguration"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
@@ -29,20 +31,18 @@
 <portlet:defineObjects />
 
 <%  
-boolean enableLRCalendarIntegration = GetterUtil.getBoolean(portletPreferences.getValue(Constants.ENABLE_LR_CALENDAR_INTEGRATION, "false"));
+TodoPortletInstanceConfiguration configuration = portletDisplay.getPortletInstanceConfiguration(
+	       TodoPortletInstanceConfiguration.class);
+boolean enableLRCalendarIntegration = configuration.enableLRCalendarIntegration();
 %>
 
-<c:set var="pns" scope="request"><portlet:namespace /></c:set>
-
 <liferay-portlet:actionURL portletConfiguration="true" var="configurationURL" />
-<%-- <pre>
-  URL = <%=configurationURL %>
-  <%= enableLRCalendarIntegration %>
-  ${todoPreferences.portletId}
-  ${todoPreferences.enableLRCalendarIntegration}
-</pre> --%>
-<aui:form name="fm" action="<%=configurationURL %>" method="post">
-	<aui:input type="checkbox" name="<%=Constants.ENABLE_LR_CALENDAR_INTEGRATION %>" label="enable-lr-calendar-integration" value="<%=enableLRCalendarIntegration %>" >
+
+<aui:form name="fm" action="<%=configurationURL %>" method="post" cssClass="container-fluid-1280">
+	<aui:input name="<%=Constants.CMD%>" type="hidden"
+		value="<%=Constants.UPDATE%>" />
+		
+	<aui:input type="checkbox" name="preferences--enableLRCalendarIntegration--" label="enable-lr-calendar-integration" value="<%=enableLRCalendarIntegration %>" >
 	</aui:input>
 	<aui:button-row>
 		<aui:button type="submit" value="submit"/>

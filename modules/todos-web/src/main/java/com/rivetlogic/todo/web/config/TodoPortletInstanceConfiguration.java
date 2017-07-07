@@ -15,7 +15,7 @@ import aQute.bnd.annotation.metatype.Meta;
 public interface TodoPortletInstanceConfiguration {
 	@Meta.AD(
 			deflt = "false",
-			required=true,
+			required=false,
 			name="configuration.default-open-tab.name"
 	)
 	public boolean enableLRCalendarIntegration();
