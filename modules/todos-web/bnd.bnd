@@ -14,5 +14,5 @@ Provide-Capability:\
 Web-ContextPath: /to-dos-web
 -dsannotations-options: inherit
 Export-Package: \
-	com.rivetlogic.todo.web.portlet.portlet,\
+	com.rivetlogic.todo.web.portlet,\
 	com.rivetlogic.todo.web.config
