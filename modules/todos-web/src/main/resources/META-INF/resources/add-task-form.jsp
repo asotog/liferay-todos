@@ -115,8 +115,8 @@ List<com.liferay.calendar.model.Calendar> manageableCalendars = CalendarServiceU
 				<%-- end: LR Calendar Integration --%>
 		
 		<aui:button-row>
-        	<button class="btn add-submit"><liferay-ui:message key="edit-task-submit" /></button>
-        	<button class="btn add-cancel"><liferay-ui:message key="edit-task-cancel" /></button>
+        	<aui:button type="submit" cssClass="btn add-submit" value="edit-task-submit"></aui:button>
+        	<aui:button type="cancel" cssClass="btn add-cancel" value="edit-task-cancel"></aui:button>
 		</aui:button-row>
         <div class="todo-portlet-loader"></div>
     </form>
