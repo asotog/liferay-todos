@@ -62,39 +62,42 @@
  
     <div id="<portlet:namespace/>" class="todo-portlet">
     	<div id="todo-calendar"></div>
-    <h2><liferay-ui:message key="tasks-title" /></h2>
-      <ul class="activities-list" id="h">
-        <li class="add-reminder">
-            <button class="btn-primary btn add-submit icon-plus-sign"></button>
-          
-        </li>
-      	<li>
-      		<span class="subtitle"><liferay-ui:message key="previous-tasks-title" /><span class="previous-tasks-count taskscount"></span></span>      		
-      		<ul class="tasks previous">
-      			
-      		</ul>
-      	</li>
-      <li>
-      	<span class="subtitle toggler-header toggler-header-expanded"><liferay-ui:message key="today-tasks-title" /><span class="today-tasks-count taskscount"></span></span>
-      	<ul class="tasks today toggler-content toggler-content-expanded">
-      			
-      	</ul>
-      	</li> 
-      <li>
-    	  	<span class="subtitle"><liferay-ui:message key="tomorrow-tasks-title" /><span class="tomorrow-tasks-count taskscount"></span></span>
-    	  	<ul class="tasks tomorrow">
-    	  			
-    		</ul>
-    	</li>
-    	<li>
-    	  	<span class="subtitle"><liferay-ui:message key="future-tasks-title" /><span class="future-tasks-count taskscount"></span></span>
-    	  	<ul class="tasks future">
-    	  			
-    		</ul>
-    	</li>
-        
-      </ul>
-      <%@include file="/add-task-form.jsp" %>
+		<h2 class="clearfix">
+			<div class="add-reminder">
+				<button class="btn-primary btn add-submit icon-plus-sign"></button>
+			</div>
+			<liferay-ui:message key="tasks-title" />
+		</h2>
+
+		<ul class="activities-list" id="h">
+			<li><span class="subtitle"><liferay-ui:message
+						key="previous-tasks-title" /><span
+					class="previous-tasks-count taskscount"></span></span>
+				<ul class="tasks previous">
+
+				</ul></li>
+			<li><span
+				class="subtitle toggler-header toggler-header-expanded"><liferay-ui:message
+						key="today-tasks-title" /><span
+					class="today-tasks-count taskscount"></span></span>
+				<ul class="tasks today toggler-content toggler-content-expanded">
+
+				</ul></li>
+			<li><span class="subtitle"><liferay-ui:message
+						key="tomorrow-tasks-title" /><span
+					class="tomorrow-tasks-count taskscount"></span></span>
+				<ul class="tasks tomorrow">
+
+				</ul></li>
+			<li><span class="subtitle"><liferay-ui:message
+						key="future-tasks-title" /><span
+					class="future-tasks-count taskscount"></span></span>
+				<ul class="tasks future">
+
+				</ul></li>
+
+		</ul>
+		<%@include file="/add-task-form.jsp" %>
       <%@include file="/task-list-item.jsp" %>   
     </div>
 

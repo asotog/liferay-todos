@@ -8,6 +8,7 @@
 
 .todo-portlet ul {
     margin: 0;
+	padding: 0;
 }
 
 .todo-portlet li {
@@ -158,11 +159,10 @@
     font-size: 1.4em
 }
 
+.todo-portlet .add-reminder{
+	float:right;
+}
 .todo-portlet .add-reminder .btn {
-    margin: 1em;
-    position: absolute;
-    top: -15px;
-    right: 0;
 }
 
 /* Hide the check button if the task is not done yet */
@@ -310,4 +310,10 @@
 
 .todo-portlet-loader.visible {
     visibility: visible;
+}
+
+.clearfix::after{
+	content: "";
+    clear: both;
+    display: table;
 }
