@@ -1,0 +1,18 @@
+Bundle-Name: ToDos Web UI
+Bundle-SymbolicName: com.rivetlogic.todo.web
+Bundle-Version: 1.0.0
+Require-Capability:\
+	liferay.resource.bundle;filter:="(bundle.symbolic.name=com.rivetlogic.todo.language)"
+Provide-Capability:\
+	liferay.resource.bundle;\
+		resource.bundle.aggregate:String="(bundle.symbolic.name=com.rivetlogic.todo.language)";\
+		resource.bundle.base.name="content.Language"
+-jsp: *.jsp,*.jspf
+-plugin.bundle: com.liferay.ant.bnd.resource.bundle.ResourceBundleLoaderAnalyzerPlugin
+-plugin.jsp: com.liferay.ant.bnd.jsp.JspAnalyzerPlugin
+-sources: true
+Web-ContextPath: /to-dos-web
+-dsannotations-options: inherit
+Export-Package: \
+	com.rivetlogic.todo.web.portlet.portlet,\
+	com.rivetlogic.todo.web.config

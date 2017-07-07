@@ -1,0 +1,4 @@
+Bundle-Name: ToDos Languages
+Bundle-SymbolicName: com.rivetlogic.todo.language
+Bundle-Version: 1.0.0
+Export-Package: com.rivetlogic.todo.language
