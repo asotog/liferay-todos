@@ -1,0 +1,11 @@
+Bundle-Name: ToDos API
+Bundle-SymbolicName: com.rivetlogic.todo.api
+Bundle-Version: 1.0.0
+Export-Package: \
+	com.rivetlogic.todo.exception,\
+	com.rivetlogic.todo.model,\
+	com.rivetlogic.todo.service,\
+	com.rivetlogic.todo.service.persistence,\
+	com.rivetlogic.todo.validator,\
+	com.rivetlogic.todo.keys
+-includeresource: META-INF/service.xml=../todos-service-service/service.xml

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.rivetlogic.todo.model.Task">
+		<field name="taskId" type="long" />
+		<field name="userId" type="long" />
+		<field name="name" type="String" />
+		<field name="description" type="String" />
+		<field name="date" type="Date" />
+		<field name="completed" type="Boolean" />
+		<field name="calendarBookingId" type="long" />
+	</model>
+</model-hints>

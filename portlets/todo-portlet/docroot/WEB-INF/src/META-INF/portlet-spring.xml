@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-	<bean id="com.rivetlogic.portlet.todo.service.TaskLocalService" class="com.rivetlogic.portlet.todo.service.impl.TaskLocalServiceImpl" />
-	<bean id="com.rivetlogic.portlet.todo.service.TaskService" class="com.rivetlogic.portlet.todo.service.impl.TaskServiceImpl" />
-	<bean id="com.rivetlogic.portlet.todo.service.persistence.TaskPersistence" class="com.rivetlogic.portlet.todo.service.persistence.TaskPersistenceImpl" parent="basePersistence" />
-</beans>
