@@ -14,9 +14,16 @@
 
 package com.rivetlogic.todo.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.rivetlogic.todo.model.Task;
 import com.rivetlogic.todo.service.base.TaskServiceBaseImpl;
+
+import aQute.bnd.annotation.ProviderType;
 
 /**
  * The implementation of the task remote service.
@@ -39,4 +46,28 @@ public class TaskServiceImpl extends TaskServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link com.rivetlogic.todo.service.TaskServiceUtil} to access the task remote service.
 	 */
+	
+	private static final Log LOG = LogFactoryUtil.getLog(TaskServiceImpl.class);
+
+    public Task createTask(Task task) throws SystemException {
+        Task newTask = taskPersistence.create(counterLocalService.increment(Task.class.getName()));
+        newTask.setCompleted(task.getCompleted());
+        newTask.setDate(task.getDate());
+        newTask.setDescription(task.getDescription());
+        newTask.setName(task.getName());
+        newTask.setUserId(task.getUserId());
+        newTask.setCalendarBookingId(task.getCalendarBookingId());
+        taskPersistence.update(newTask);
+        return newTask;
+    }
+
+    public List<Task> getTaskByUserId(Long userId) {
+        List<Task> tasks = new ArrayList<Task>();
+        try {
+            tasks = taskPersistence.findByuserId(userId);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+        return tasks;
+    }
 }

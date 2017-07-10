@@ -16,9 +16,16 @@ package com.rivetlogic.todo.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import com.rivetlogic.todo.service.TaskServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * {@link com.rivetlogic.todo.service.TaskServiceUtil} service utility. The
+ * {@link TaskServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -53,9 +60,39 @@ import aQute.bnd.annotation.ProviderType;
  * @author Christopher Jimenez, Emmanuel Abarca
  * @see TaskServiceHttp
  * @see com.rivetlogic.todo.model.TaskSoap
- * @see com.rivetlogic.todo.service.TaskServiceUtil
+ * @see TaskServiceUtil
  * @generated
  */
 @ProviderType
 public class TaskServiceSoap {
+	public static com.rivetlogic.todo.model.TaskSoap createTask(
+		com.rivetlogic.todo.model.TaskSoap task) throws RemoteException {
+		try {
+			com.rivetlogic.todo.model.Task returnValue = TaskServiceUtil.createTask(com.rivetlogic.todo.model.impl.TaskModelImpl.toModel(
+						task));
+
+			return com.rivetlogic.todo.model.TaskSoap.toSoapModel(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static com.rivetlogic.todo.model.TaskSoap[] getTaskByUserId(
+		java.lang.Long userId) throws RemoteException {
+		try {
+			java.util.List<com.rivetlogic.todo.model.Task> returnValue = TaskServiceUtil.getTaskByUserId(userId);
+
+			return com.rivetlogic.todo.model.TaskSoap.toSoapModels(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(TaskServiceSoap.class);
 }

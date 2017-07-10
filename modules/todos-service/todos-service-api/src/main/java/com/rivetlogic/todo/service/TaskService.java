@@ -23,7 +23,12 @@ import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import com.rivetlogic.todo.model.Task;
+
+import java.util.List;
 
 /**
  * Provides the remote service interface for Task. Methods of this
@@ -49,6 +54,7 @@ public interface TaskService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TaskServiceUtil} to access the task remote service. Add custom service methods to {@link com.rivetlogic.todo.service.impl.TaskServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public Task createTask(Task task) throws SystemException;
 
 	/**
 	* Returns the OSGi service identifier.
@@ -56,4 +62,7 @@ public interface TaskService extends BaseService {
 	* @return the OSGi service identifier
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Task> getTaskByUserId(java.lang.Long userId);
 }

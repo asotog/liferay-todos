@@ -41,6 +41,11 @@ public class TaskServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.rivetlogic.todo.service.impl.TaskServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.rivetlogic.todo.model.Task createTask(
+		com.rivetlogic.todo.model.Task task)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().createTask(task);
+	}
 
 	/**
 	* Returns the OSGi service identifier.
@@ -49,6 +54,11 @@ public class TaskServiceUtil {
 	*/
 	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static java.util.List<com.rivetlogic.todo.model.Task> getTaskByUserId(
+		java.lang.Long userId) {
+		return getService().getTaskByUserId(userId);
 	}
 
 	public static TaskService getService() {

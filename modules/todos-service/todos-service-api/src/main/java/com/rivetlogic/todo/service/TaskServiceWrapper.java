@@ -32,6 +32,13 @@ public class TaskServiceWrapper implements TaskService,
 		_taskService = taskService;
 	}
 
+	@Override
+	public com.rivetlogic.todo.model.Task createTask(
+		com.rivetlogic.todo.model.Task task)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _taskService.createTask(task);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -40,6 +47,12 @@ public class TaskServiceWrapper implements TaskService,
 	@Override
 	public java.lang.String getOSGiServiceIdentifier() {
 		return _taskService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public java.util.List<com.rivetlogic.todo.model.Task> getTaskByUserId(
+		java.lang.Long userId) {
+		return _taskService.getTaskByUserId(userId);
 	}
 
 	@Override
