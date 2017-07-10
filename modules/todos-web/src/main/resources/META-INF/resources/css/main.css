@@ -269,6 +269,10 @@
 	width: 100px;
 }
 
+select.reminder-duration:disabled {
+	color: gray;
+}
+
 /************************ Calendar **************************/
 .yui3-calendarnav-prevmonth:before {
     content: "\f053";
