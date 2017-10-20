@@ -496,7 +496,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 boundingBox: modal.get('boundingBox').one('form'),
                 rules: TASK_VALIDATION_RULES
             });
-            
+
             this.addButton.on('click', function (e) {
                 modal.set('width', (me.getViewport().width < LIFERAY_PHONE_MEDIA_BREAK ? (me.getViewport().width - 40) : 500));
                 if (modal.get('boundingBox').one(SELECT_CALENDAR)) {
@@ -505,7 +505,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 modal.show();
             });
 
-            modal.get('boundingBox').one('.add-submit').on('click', function (e) {
+            modal.get('boundingBox').one('form').on('submit', function (e) {
                 /* trigger validator */
                 var title = modal.get('boundingBox').one('.add-title').get('value');
                 var description = modal.get('boundingBox').one('.add-description').get('value');
@@ -516,10 +516,10 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 var secondReminderValue = me.getReminderValue(modal.get('boundingBox').one(SECOND_REMINDER_VALUE));
                 var secondReminderDuration = me.getReminderValue(modal.get('boundingBox').one(SECOND_REMINDER_DURATION));
                 
-                e.preventDefault();
-                e.stopPropagation();
+                // e.preventDefault();
+                // e.stopPropagation();
                 
-                if (modal.get('boundingBox').all('.error').size() == 0 && Y.Lang.trim(title) != '' && 
+                if (Y.Lang.trim(title) != '' && 
                         Y.Lang.trim(description) != '' && Y.Lang.trim(date) != '') {
                     date = new Date(date);
                     date.setHours(0,0,0,0); //starts at midnight
