@@ -543,10 +543,11 @@ AUI.add('todo-portlet', function (Y, NAME) {
 	                        modal.get('boundingBox').one('.todo-portlet-loader').toggleClass('visible');
 	                        modal.get('boundingBox').one('.add-submit').removeAttribute('disabled');
 	                        me.updateTaskListUI(function() {
-                            me.openTaskGroup(data.taskId);
-                        });
-                        modal.get('boundingBox').one('form').reset();
-                        modal.hide();
+                                me.openTaskGroup(data.taskId);
+                            });
+                            modal.get('boundingBox').one(REMINDERS_BOX).addClass(REMINDERS_HIDDEN_CLASS);
+                            modal.get('boundingBox').one('form').reset();
+                            modal.hide();
                     });
                     
                 }
