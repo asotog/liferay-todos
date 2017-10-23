@@ -97,8 +97,8 @@ AUI.add('todo-portlet', function (Y, NAME) {
                         tasks[j].firstReminderChecked = (tasks[j].firstReminderValue !== 0)? "checked": "";
                         tasks[j].secondReminderChecked = (tasks[j].secondReminderValue !== 0)? "checked": "";
                         // reminders
-                        tasks[j].firstReminderValue = (tasks[j].firstReminderValue !== 0)? tasks[j].firstReminderValue / tasks[j].firstReminderDuration : "";
-                        tasks[j].secondReminderValue = (tasks[j].secondReminderValue !== 0)? tasks[j].secondReminderValue / tasks[j].secondReminderDuration: "";
+                        tasks[j].firstReminderValue = (tasks[j].firstReminderValue !== 0) ? me.calcReminderValue(tasks[j].firstReminderValue, tasks[j].firstReminderDuration) : "";
+                        tasks[j].secondReminderValue = (tasks[j].secondReminderValue !== 0)? me.calcReminderValue(tasks[j].secondReminderValue, tasks[j].secondReminderDuration) : "";
                         firstReminderSelectProperty = "first" + tasks[j].firstReminderDuration;
                         tasks[j][firstReminderSelectProperty] = "selected";
                         secondReminderSelectProperty = "second" + tasks[j].secondReminderDuration;
@@ -120,6 +120,15 @@ AUI.add('todo-portlet', function (Y, NAME) {
             });
         },
         
+        /**
+         * Calculates the value that is going to be displayed to the user based on the duration type (hours, minutes, days etc...)
+         * 
+         */
+        calcReminderValue: function(value, duration) {
+            var calc = value / duration;
+            return isNaN(calc) ? '' : calc;
+        },
+
         /**
          * Creates a calendar component with the given field selector as trigger
          * 
