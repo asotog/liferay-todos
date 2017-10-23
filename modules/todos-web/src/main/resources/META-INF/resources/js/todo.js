@@ -268,7 +268,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                     e.preventDefault();
                     e.stopPropagation();
                     if (cont.all('.error').size() == 0) {
-                        var element = me.getMembers(this.get("parentNode").get("parentNode").get("parentNode"));
+                        var element = me.getMembers(this.ancestor('[id^="task-"]'));
                         var id = element.edit.one('.edit-task-id').get('value');
                         var calendarId = me.getCalendarId(element.selectCalendar);
                         var calendarBookingId = element.edit.one('.edit-calendar-booking-id').get('value');

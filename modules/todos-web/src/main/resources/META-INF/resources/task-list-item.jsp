@@ -32,29 +32,29 @@
         <form>
             <input class="edit-task-id" type="hidden" value="{taskId}" />
 			<input class="edit-calendar-booking-id" type="hidden" value="{calendarBookingId}" />
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label" for="title"><liferay-ui:message key="edit-task-title" /></label>
                 <div class="controls">
-                     <input name="title" type="text" class="edit-title field-required" value="{name}"></input>
+                     <input name="title" type="text" class="form-control edit-title field-required" value="{name}"></input>
                 </div>
             </div>
 
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label" for="description"><liferay-ui:message key="edit-task-description" /></label>
                 <div class="controls">
-                    <textarea name="description" class="edit-description field-required" placeholder="<liferay-ui:message key="edit-task-description-placeholder" />">{description}</textarea>
+                    <textarea name="description" class="form-control edit-description field-required" placeholder="<liferay-ui:message key="edit-task-description-placeholder" />">{description}</textarea>
                 </div>
             </div>
             
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label" for="time"><liferay-ui:message key="edit-task-date" /></label>
                 <div class="lfr-input-date controls">
-                    <input id="taskCal{taskId}" name="time" type="{dateFieldType}" class="edit-time" value="{date}"></input>
+                    <input id="taskCal{taskId}" name="time" type="{dateFieldType}" class="form-control edit-time" value="{date}"></input>
                 </div>
             </div>
             <%-- LR Calendar Integration --%>
       			<c:if test="<%=enableLRCalendarIntegration %>">          
-          			<div class="control-group">
+          			<div class="form-group">
           				<label class="add-to-calendar"><input {checked} type="checkbox" class="chk-calendar" /> <liferay-ui:message key="edit-task-add-to-calendar" /></label>
                  			<div class="controls">            
           					<select class="select-calendar">
@@ -69,7 +69,7 @@
                   		</div>
           			</div>
 
-          			<div class="control-group reminders {remindersClass}">
+          			<div class="form-group reminders {remindersClass}">
           				<label><liferay-ui:message key="edit-task-reminders" /></label>
           				<div class="reminder">
           					<label class="add-reminder"><input {firstReminderChecked} type="checkbox" class="chk-reminder" /> <liferay-ui:message key="edit-task-reminder-type"/></label> 
@@ -93,10 +93,12 @@
           					</select>	
           				</div>
           			</div>
-            </c:if>
-       
-            <button class="btn edit-submit"><liferay-ui:message key="edit-task-submit" /></button>
-            <button class="btn edit-cancel"><liferay-ui:message key="edit-task-cancel" /></button>
+			</c:if>
+			
+			<aui:button-row>
+				<button class="btn edit-submit"><liferay-ui:message key="edit-task-submit" /></button>
+				<button class="btn edit-cancel"><liferay-ui:message key="edit-task-cancel" /></button>
+			</aui:button-row>
 
         </form>
     </div>
