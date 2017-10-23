@@ -323,7 +323,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 button.on("click", function (e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    var element = me.getMembers(this.get("parentNode").get("parentNode").get("parentNode"));
+                    var element = me.getMembers(this.ancestor('[id^="task-"]'));
                     me.closeActivity(element);
                 });
             });
