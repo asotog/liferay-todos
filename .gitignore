@@ -22,3 +22,7 @@
 /plugins-sdk/dist
 /plugins-sdk/lib
 test-results
+dist
+ivy.xml.MD5
+lib
+portlets

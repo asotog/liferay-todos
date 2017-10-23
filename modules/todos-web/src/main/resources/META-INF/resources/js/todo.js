@@ -94,11 +94,11 @@ AUI.add('todo-portlet', function (Y, NAME) {
                         // checkbox
                         tasks[j].checked = (tasks[j].calendarId !== UNDEFINED_CALENDAR_ID)? "checked": "";
                         // checkbox for reminders
-                        tasks[j].firstReminderChecked = (tasks[j].firstReminderValue !== 0)? "checked": "";
-                        tasks[j].secondReminderChecked = (tasks[j].secondReminderValue !== 0)? "checked": "";
+                        tasks[j].firstReminderChecked = (parseInt(tasks[j].firstReminderValue) !== 0)? "checked": "";
+                        tasks[j].secondReminderChecked = (parseInt(tasks[j].secondReminderValue) !== 0)? "checked": "";
                         // reminders
-                        tasks[j].firstReminderValue = (tasks[j].firstReminderValue !== 0)? tasks[j].firstReminderValue / tasks[j].firstReminderDuration : "";
-                        tasks[j].secondReminderValue = (tasks[j].secondReminderValue !== 0)? tasks[j].secondReminderValue / tasks[j].secondReminderDuration: "";
+                        tasks[j].firstReminderValue = (tasks[j].firstReminderValue !== 0) ? me.calcReminderValue(tasks[j].firstReminderValue, tasks[j].firstReminderDuration) : "";
+                        tasks[j].secondReminderValue = (tasks[j].secondReminderValue !== 0)? me.calcReminderValue(tasks[j].secondReminderValue, tasks[j].secondReminderDuration) : "";
                         firstReminderSelectProperty = "first" + tasks[j].firstReminderDuration;
                         tasks[j][firstReminderSelectProperty] = "selected";
                         secondReminderSelectProperty = "second" + tasks[j].secondReminderDuration;
@@ -120,6 +120,15 @@ AUI.add('todo-portlet', function (Y, NAME) {
             });
         },
         
+        /**
+         * Calculates the value that is going to be displayed to the user based on the duration type (hours, minutes, days etc...)
+         * 
+         */
+        calcReminderValue: function(value, duration) {
+            var calc = value / duration;
+            return isNaN(calc) ? '' : calc;
+        },
+
         /**
          * Creates a calendar component with the given field selector as trigger
          * 
@@ -251,7 +260,8 @@ AUI.add('todo-portlet', function (Y, NAME) {
                     			calendarBookingId: calendarBookingId
                     		}, function() {
 	                        element.li.remove(true);
-	                        listHeader.one('.taskscount').set('innerHTML', newCountStr);
+                            listHeader.one('.taskscount').set('innerHTML', newCountStr);
+                            me.reloadCalendar();
 	                    });
             		}
                 });
@@ -268,7 +278,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                     e.preventDefault();
                     e.stopPropagation();
                     if (cont.all('.error').size() == 0) {
-                        var element = me.getMembers(this.get("parentNode").get("parentNode").get("parentNode"));
+                        var element = me.getMembers(this.ancestor('[id^="task-"]'));
                         var id = element.edit.one('.edit-task-id').get('value');
                         var calendarId = me.getCalendarId(element.selectCalendar);
                         var calendarBookingId = element.edit.one('.edit-calendar-booking-id').get('value');
@@ -301,6 +311,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                     		}, function() {
                     			me.updateTaskListUI(function() {
                                 me.openTaskGroup(id);
+                                me.reloadCalendar();
                             });
                         });
                     }
@@ -496,7 +507,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 boundingBox: modal.get('boundingBox').one('form'),
                 rules: TASK_VALIDATION_RULES
             });
-            
+
             this.addButton.on('click', function (e) {
                 modal.set('width', (me.getViewport().width < LIFERAY_PHONE_MEDIA_BREAK ? (me.getViewport().width - 40) : 500));
                 if (modal.get('boundingBox').one(SELECT_CALENDAR)) {
@@ -505,7 +516,9 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 modal.show();
             });
 
-            modal.get('boundingBox').one('.add-submit').on('click', function (e) {
+            modal.get('boundingBox').one('form').on('submit', function (e) {
+                e.preventDefault();
+                // e.stopPropagation();
                 /* trigger validator */
                 var title = modal.get('boundingBox').one('.add-title').get('value');
                 var description = modal.get('boundingBox').one('.add-description').get('value');
@@ -516,10 +529,9 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 var secondReminderValue = me.getReminderValue(modal.get('boundingBox').one(SECOND_REMINDER_VALUE));
                 var secondReminderDuration = me.getReminderValue(modal.get('boundingBox').one(SECOND_REMINDER_DURATION));
                 
-                e.preventDefault();
-                e.stopPropagation();
                 
-                if (modal.get('boundingBox').all('.error').size() == 0 && Y.Lang.trim(title) != '' && 
+                
+                if (Y.Lang.trim(title) != '' && 
                         Y.Lang.trim(description) != '' && Y.Lang.trim(date) != '') {
                     date = new Date(date);
                     date.setHours(0,0,0,0); //starts at midnight
@@ -543,10 +555,12 @@ AUI.add('todo-portlet', function (Y, NAME) {
 	                        modal.get('boundingBox').one('.todo-portlet-loader').toggleClass('visible');
 	                        modal.get('boundingBox').one('.add-submit').removeAttribute('disabled');
 	                        me.updateTaskListUI(function() {
-                            me.openTaskGroup(data.taskId);
-                        });
-                        modal.get('boundingBox').one('form').reset();
-                        modal.hide();
+                                me.openTaskGroup(data.taskId);
+                            });
+                            modal.get('boundingBox').one(REMINDERS_BOX).addClass(REMINDERS_HIDDEN_CLASS);
+                            modal.get('boundingBox').one('form').reset();
+                            modal.hide();
+                            me.reloadCalendar();
                     });
                     
                 }
@@ -685,6 +699,19 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 timeInput: timeInput,
                 selectCalendar: selectCalendar
             };
+        },
+
+        /**
+         * If there is a liferay calendar portlet in the same page as the todo portlet
+         * this method makes it reload retrieving the latest events updates
+         */
+        reloadCalendar() {
+            // using namespace directly here, seems no problem because calendar portlet is not instanceable multiple times per page
+            var scheduler = _com_liferay_calendar_web_portlet_CalendarPortlet_scheduler;
+            // check if exists a calendar in this page
+            if (scheduler) {
+                scheduler.load();
+            }
         }
 
 

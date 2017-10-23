@@ -53,6 +53,7 @@
 }
 
 .todo-portlet .subtitle {
+    cursor: pointer;
     padding: 0.1em 1.0em;
     font-size: 1.3em;
     background: #666;
