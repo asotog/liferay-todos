@@ -260,7 +260,8 @@ AUI.add('todo-portlet', function (Y, NAME) {
                     			calendarBookingId: calendarBookingId
                     		}, function() {
 	                        element.li.remove(true);
-	                        listHeader.one('.taskscount').set('innerHTML', newCountStr);
+                            listHeader.one('.taskscount').set('innerHTML', newCountStr);
+                            me.reloadCalendar();
 	                    });
             		}
                 });
@@ -310,6 +311,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                     		}, function() {
                     			me.updateTaskListUI(function() {
                                 me.openTaskGroup(id);
+                                me.reloadCalendar();
                             });
                         });
                     }
@@ -515,6 +517,8 @@ AUI.add('todo-portlet', function (Y, NAME) {
             });
 
             modal.get('boundingBox').one('form').on('submit', function (e) {
+                e.preventDefault();
+                // e.stopPropagation();
                 /* trigger validator */
                 var title = modal.get('boundingBox').one('.add-title').get('value');
                 var description = modal.get('boundingBox').one('.add-description').get('value');
@@ -525,8 +529,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 var secondReminderValue = me.getReminderValue(modal.get('boundingBox').one(SECOND_REMINDER_VALUE));
                 var secondReminderDuration = me.getReminderValue(modal.get('boundingBox').one(SECOND_REMINDER_DURATION));
                 
-                // e.preventDefault();
-                // e.stopPropagation();
+                
                 
                 if (Y.Lang.trim(title) != '' && 
                         Y.Lang.trim(description) != '' && Y.Lang.trim(date) != '') {
@@ -557,6 +560,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                             modal.get('boundingBox').one(REMINDERS_BOX).addClass(REMINDERS_HIDDEN_CLASS);
                             modal.get('boundingBox').one('form').reset();
                             modal.hide();
+                            me.reloadCalendar();
                     });
                     
                 }
@@ -695,6 +699,17 @@ AUI.add('todo-portlet', function (Y, NAME) {
                 timeInput: timeInput,
                 selectCalendar: selectCalendar
             };
+        },
+
+        /**
+         * If there is a liferay calendar portlet in the same page as the todo portlet
+         * this method makes it reload retrieving the latest events updates
+         */
+        reloadCalendar() {
+            var scheduler = _com_liferay_calendar_web_portlet_CalendarPortlet_scheduler;
+            if (scheduler) {
+                scheduler.load();
+            }
         }
 
 
