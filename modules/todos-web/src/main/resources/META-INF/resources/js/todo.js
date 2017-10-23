@@ -706,7 +706,9 @@ AUI.add('todo-portlet', function (Y, NAME) {
          * this method makes it reload retrieving the latest events updates
          */
         reloadCalendar() {
+            // using namespace directly here, seems no problem because calendar portlet is not instanceable multiple times per page
             var scheduler = _com_liferay_calendar_web_portlet_CalendarPortlet_scheduler;
+            // check if exists a calendar in this page
             if (scheduler) {
                 scheduler.load();
             }
