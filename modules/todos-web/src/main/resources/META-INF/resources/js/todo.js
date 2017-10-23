@@ -94,8 +94,8 @@ AUI.add('todo-portlet', function (Y, NAME) {
                         // checkbox
                         tasks[j].checked = (tasks[j].calendarId !== UNDEFINED_CALENDAR_ID)? "checked": "";
                         // checkbox for reminders
-                        tasks[j].firstReminderChecked = (tasks[j].firstReminderValue !== 0)? "checked": "";
-                        tasks[j].secondReminderChecked = (tasks[j].secondReminderValue !== 0)? "checked": "";
+                        tasks[j].firstReminderChecked = (parseInt(tasks[j].firstReminderValue) !== 0)? "checked": "";
+                        tasks[j].secondReminderChecked = (parseInt(tasks[j].secondReminderValue) !== 0)? "checked": "";
                         // reminders
                         tasks[j].firstReminderValue = (tasks[j].firstReminderValue !== 0) ? me.calcReminderValue(tasks[j].firstReminderValue, tasks[j].firstReminderDuration) : "";
                         tasks[j].secondReminderValue = (tasks[j].secondReminderValue !== 0)? me.calcReminderValue(tasks[j].secondReminderValue, tasks[j].secondReminderDuration) : "";
