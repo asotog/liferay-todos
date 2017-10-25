@@ -57,6 +57,7 @@ import com.rivetlogic.todo.validator.TodoValidator;
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=administrator,power-user,user,guest",
 		"com.liferay.portlet.header-portlet-css=/css/main.css",
+        "com.liferay.portlet.header-portlet-css=/css/main_responsive.css",
 		"com.liferay.portlet.footer-portlet-javascript=/js/todo.js",
 		"com.liferay.portlet.css-class-wrapper=todo-portlet",
 		"javax.portlet.init-param.copy-request-parameters=false"
