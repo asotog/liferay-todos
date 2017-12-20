@@ -131,7 +131,7 @@ public class TodoPortlet extends MVCPortlet {
     }
     
     private void listTasks(PortletResponse response, ThemeDisplay themeDisplay) {
-        TasksBean tb = new TasksBean(themeDisplay.getUserId(), new Date());
+        TasksBean tb = new TasksBean(themeDisplay);
         TodoUtil.returnJSONObject(response, tb.toJSON());
     }
     
@@ -231,12 +231,17 @@ public class TodoPortlet extends MVCPortlet {
     }
     
     private Calendar getDateFromRequest(HttpServletRequest request) {
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         int day = ParamUtil.getInteger(request, DATE_DAY, DEFAULT_INT_VALUE);
         int month = ParamUtil.getInteger(request, DATE_MONTH, DEFAULT_INT_VALUE);
         int year = ParamUtil.getInteger(request, DATE_YEAR, DEFAULT_INT_VALUE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-        return calendar;
+        Calendar calendar = Calendar.getInstance(themeDisplay.getTimeZone());
+        calendar.set(year, month, day, 0, 0, 0);
+        //return calendar;
+        // convert to utc
+        Calendar utcCalendar = Calendar.getInstance();
+        utcCalendar.setTime(calendar.getTime());
+        return utcCalendar;
     }
         
     private CalendarBooking addCalendarBooking(HttpServletRequest request, Task task, long calendarId, long[] reminders, String[] remindersType) throws PortalException, SystemException {

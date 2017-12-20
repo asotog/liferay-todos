@@ -19,6 +19,7 @@ package com.rivetlogic.todo.util;
 
 import com.liferay.calendar.model.CalendarBooking;
 import com.liferay.calendar.service.CalendarBookingLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -27,6 +28,7 @@ import com.rivetlogic.todo.service.TaskLocalServiceUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Date;
 import java.util.List;
 
@@ -69,10 +71,11 @@ public class TasksBean {
     
     public static final String ACTION_KEY_MANAGE_BOOKINGS = "MANAGE_BOOKINGS";
     public static final int UNDEFINED_ID = -1;
-    
-    
-    public TasksBean(Long userId, Date now) {
-        
+
+    public TasksBean(ThemeDisplay themeDisplay) {
+        Long userId = themeDisplay.getUserId();
+        Date now = convertToUserTimezone(themeDisplay, new Date());
+
         previousTasks = new ArrayList<Task>();
         todayTasks = new ArrayList<Task>();
         tomorrowTasks = new ArrayList<Task>();
@@ -86,7 +89,7 @@ public class TasksBean {
         List<Task> allTasks = TaskLocalServiceUtil.getTaskByUserId(userId);
         
         for (Task task : allTasks){
-            
+            task.setDate(convertToUserTimezone(themeDisplay, task.getDate()));
             Calendar taskDate = TodoUtil.getCalendarWithOutTime(task.getDate());
             
             if (taskDate.equals(today)) {
@@ -105,6 +108,14 @@ public class TasksBean {
 
     }
     
+    private Date convertToUserTimezone(ThemeDisplay themeDisplay, Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        Calendar userCalendar = new GregorianCalendar(themeDisplay.getTimeZone());
+		userCalendar.setTimeInMillis(cal.getTimeInMillis());
+        return userCalendar.getTime();
+    }
+
     public List<Task> getPreviousTasks() {
         return previousTasks;
     }
