@@ -120,6 +120,18 @@ public class TodoPortlet extends MVCPortlet {
                 Task task = TaskLocalServiceUtil.getTask(taskId);
                 task.setCompleted(!task.getCompleted());
                 TaskLocalServiceUtil.updateTask(task);
+                // If booking exists and marked as done, we remove from calendar the event, in order to prevent sending reminder when 
+                // already marked as done
+                if (task.getCalendarBookingId() != TasksBean.UNDEFINED_ID) {
+                	if (task.getCompleted()) {
+                    	// remove booking
+                    	CalendarBookingLocalServiceUtil.moveCalendarBookingToTrash(task.getUserId(), task.getCalendarBookingId());
+                    } else {
+                    	// restore booking
+                    	CalendarBookingLocalServiceUtil.restoreCalendarBookingFromTrash(task.getUserId(), task.getCalendarBookingId());
+                    }
+                }
+                
                 jsonObject.put(COMMAND_SUCCESS, true);
             } catch (Exception e) {
                 jsonObject.put(COMMAND_SUCCESS, false);
