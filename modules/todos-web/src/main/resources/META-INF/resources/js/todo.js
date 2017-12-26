@@ -559,6 +559,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
                             });
                             modal.get('boundingBox').one(REMINDERS_BOX).addClass(REMINDERS_HIDDEN_CLASS);
                             modal.get('boundingBox').one('form').reset();
+                            me.clearInputs(modal);
                             modal.hide();
                             me.reloadCalendar();
                     });
@@ -605,9 +606,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
             	me.checkReminderHandler(event, reminderDiv.one(REMINDER_VALUE), reminderDiv.one(REMINDER_DURATION));
             });
             
-            // Initialy the reminders controls are disabled
-            modal.get('boundingBox').all(REMINDER_VALUE).setAttribute('disabled', 'disabled');
-            modal.get('boundingBox').all(REMINDER_DURATION).setAttribute('disabled', 'disabled');
+            this.clearInputs(modal);
         },
         
         /** Handler for the checkbox to enable or disabled the calendar select **/
@@ -674,6 +673,10 @@ AUI.add('todo-portlet', function (Y, NAME) {
              modal.get('boundingBox').all('.control-group input').set('value', '');
              modal.get('boundingBox').all('.control-group textarea').val('');
              modal.get('boundingBox').all(".help-inline").remove(false);
+
+             // Initialy the reminders controls are disabled
+            modal.get('boundingBox').all(REMINDER_VALUE).setAttribute('disabled', 'disabled');
+            modal.get('boundingBox').all(REMINDER_DURATION).setAttribute('disabled', 'disabled');
         },
 
 
