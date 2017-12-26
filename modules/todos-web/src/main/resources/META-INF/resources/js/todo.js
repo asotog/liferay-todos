@@ -708,7 +708,7 @@ AUI.add('todo-portlet', function (Y, NAME) {
          * If there is a liferay calendar portlet in the same page as the todo portlet
          * this method makes it reload retrieving the latest events updates
          */
-        reloadCalendar() {
+        reloadCalendar: function() {
             // using namespace directly here, seems no problem because calendar portlet is not instanceable multiple times per page
             var scheduler = window._com_liferay_calendar_web_portlet_CalendarPortlet_scheduler;
             // check if exists a calendar in this page
