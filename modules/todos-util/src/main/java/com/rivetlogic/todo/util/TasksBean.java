@@ -20,6 +20,7 @@ package com.rivetlogic.todo.util;
 import com.liferay.calendar.model.CalendarBooking;
 import com.liferay.calendar.service.CalendarBookingLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -224,32 +225,24 @@ public class TasksBean {
     }
     
     private long getReminderDuration(long reminderValue) {
-    	long reminderDuration = 0;
+    	String t = Time.getDescription(reminderValue);
     	
-    	reminderDuration = reminderValue / WEEKS;
-    	
-    	if (reminderDuration > 0) {
-    		return WEEKS;
-    	}
-    	
-    	reminderDuration = reminderValue / DAYS;
-    	
-    	if (reminderDuration > 0) {
-    		return DAYS;
-    	}
-    	
-    	reminderDuration = reminderValue / HOURS;
-    	
-    	if (reminderDuration > 0) {
+    	if (t.contains("Hour")) {
     		return HOURS;
     	}
     	
-    	reminderDuration = reminderValue / MINUTES;
-    	
-    	if (reminderValue > 0) {
+    	if (t.contains("Minute")) {
     		return MINUTES;
     	}
     	
-    	return reminderDuration;
+    	if (t.contains("Day")) {
+    		return DAYS;
+    	}
+    	
+    	if (t.contains("Week")) {
+    		return WEEKS;
+    	}
+
+    	return 0;
     }
 }

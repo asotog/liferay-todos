@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.calendar.model.CalendarBooking;
+import com.liferay.calendar.model.CalendarBookingConstants;
 import com.liferay.calendar.service.CalendarBookingLocalServiceUtil;
 import com.liferay.calendar.util.JCalendarUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -266,9 +267,8 @@ public class TodoPortlet extends MVCPortlet {
 		
 		titleMap.put(ServiceContextFactory.getInstance(request).getLocale(), task.getName());
 		descriptionMap.put(ServiceContextFactory.getInstance(request).getLocale(), task.getDescription());
-		
         return CalendarBookingLocalServiceUtil.addCalendarBooking(PortalUtil.getUserId(request),
-        	calendarId, new long[]{}, 0l, titleMap, descriptionMap,
+        	calendarId, new long[]{}, CalendarBookingConstants.PARENT_CALENDAR_BOOKING_ID_DEFAULT, titleMap, descriptionMap,
 			StringPool.BLANK, task.getDate().getTime(),
 			task.getDate().getTime(), true, "", reminders[0], remindersType[0], reminders[1], remindersType[1],
 			ServiceContextFactory.getInstance(request));
