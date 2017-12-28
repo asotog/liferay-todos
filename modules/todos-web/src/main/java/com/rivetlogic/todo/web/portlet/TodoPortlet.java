@@ -267,11 +267,12 @@ public class TodoPortlet extends MVCPortlet {
 		
 		titleMap.put(ServiceContextFactory.getInstance(request).getLocale(), task.getName());
 		descriptionMap.put(ServiceContextFactory.getInstance(request).getLocale(), task.getDescription());
-        return CalendarBookingLocalServiceUtil.addCalendarBooking(PortalUtil.getUserId(request),
+		CalendarBooking cb = CalendarBookingLocalServiceUtil.addCalendarBooking(PortalUtil.getUserId(request),
         	calendarId, new long[]{}, CalendarBookingConstants.PARENT_CALENDAR_BOOKING_ID_DEFAULT, titleMap, descriptionMap,
 			StringPool.BLANK, task.getDate().getTime(),
 			task.getDate().getTime(), true, "", reminders[0], remindersType[0], reminders[1], remindersType[1],
 			ServiceContextFactory.getInstance(request));
+		return updateCalendarBooking(request, task, cb.getCalendarBookingId(), calendarId);
     }
     
     private CalendarBooking updateCalendarBooking(HttpServletRequest request, Task task, long calendarBookingId, long calendarId) throws PortalException, SystemException {
