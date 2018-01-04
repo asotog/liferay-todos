@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -246,13 +247,26 @@ public class TodoPortlet extends MVCPortlet {
     }
     
     private Calendar getDateFromRequest(HttpServletRequest request) {
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        
         int day = ParamUtil.getInteger(request, DATE_DAY, DEFAULT_INT_VALUE);
         int month = ParamUtil.getInteger(request, DATE_MONTH, DEFAULT_INT_VALUE);
         int year = ParamUtil.getInteger(request, DATE_YEAR, DEFAULT_INT_VALUE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-        return calendar;
+        
+        Calendar jCalendar = CalendarFactoryUtil.getCalendar(themeDisplay.getTimeZone());
+
+		jCalendar.set(Calendar.YEAR, year);
+		jCalendar.set(Calendar.MONTH, month);
+		jCalendar.set(Calendar.DATE, day);
+		jCalendar.set(Calendar.HOUR_OF_DAY, 0);
+		jCalendar.set(Calendar.MINUTE, 0);
+		jCalendar.set(Calendar.SECOND, 0);
+		jCalendar.set(Calendar.MILLISECOND, 0);
+
+		return jCalendar;
+        
     }
+
         
     private CalendarBooking addCalendarBooking(HttpServletRequest request, Task task, long calendarId, long[] reminders, String[] remindersType) throws PortalException, SystemException {
 
